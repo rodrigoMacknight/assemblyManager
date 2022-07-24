@@ -29,7 +29,8 @@ public class AssemblyService {
     public Assembly createAssembly(String assemblyName, LocalDateTime endSession) {
 
         if (assemblyRepository.findByRulingName(assemblyName).size()==0) {
-            Assembly a = assemblyRepository.save(new Assembly(assemblyName, endSession));
+            //if running locally remove plus3Hours
+            Assembly a = assemblyRepository.save(new Assembly(assemblyName, endSession.plusHours(3)));
             return a;
         }
         return null;
