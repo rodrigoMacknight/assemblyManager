@@ -1,5 +1,6 @@
 package com.mk.assemblyManager.service;
 
+import com.mk.assemblyManager.client.CpfValidatorClient;
 import com.mk.assemblyManager.domain.Assembly;
 import com.mk.assemblyManager.domain.Associate;
 import com.mk.assemblyManager.dto.VoteRequest;
@@ -21,9 +22,13 @@ public class AssemblyService {
     private final AssemblyRepository assemblyRepository;
     private final AssociateRepository associateRepository;
 
-    public AssemblyService(AssemblyRepository vsRepository, AssociateRepository associateRepository) {
+    private final CpfValidatorClient cpfValidatorClient;
+
+    public AssemblyService(AssemblyRepository vsRepository, AssociateRepository associateRepository,
+                           CpfValidatorClient cpfValidatorClient) {
         this.assemblyRepository = vsRepository;
         this.associateRepository = associateRepository;
+        this.cpfValidatorClient = cpfValidatorClient;
     }
 
     public Assembly createAssembly(String assemblyName, LocalDateTime endSession) {
@@ -55,6 +60,10 @@ public class AssemblyService {
             return ASSOCIADO_JÁ_VOTOU;
         }
 
+        if (!cpfValidatorClient.clientCanVote(associate.getCpf())) {
+            return CLIENT_CANT_VOTE;
+        }
+
         Assembly assembly = assemblyEntity.get();
 
         if (assembly.getSessionEndTime().isBefore(LocalDateTime.now())) {
@@ -74,6 +83,8 @@ public class AssemblyService {
         return VOTO_REGISTRADO;
 
     }
+
+
 
 
     private void doDemocracy(VoteRequest vote, Assembly assembly) {

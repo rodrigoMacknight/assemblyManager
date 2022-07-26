@@ -15,8 +15,9 @@ public class StartupDB implements ApplicationRunner {
     }
 
     public void createAssociates(int amount) {
+        long cpf = 39566743831L;
         for (int i = 0; i < amount; i++) {
-            associateRepository.save(new Associate((long) i, null));
+            associateRepository.save(new Associate((long) i, null, (cpf++) + ""));
         }
     }
 

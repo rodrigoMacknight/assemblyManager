@@ -19,5 +19,6 @@ public class Associate {
     private Long id;
     @ElementCollection
     private List<Long> assemblyIds;
+    private String cpf;
 
 }

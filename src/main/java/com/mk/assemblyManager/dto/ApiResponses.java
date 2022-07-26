@@ -6,4 +6,5 @@ public class ApiResponses {
     public static final String ASSOCIADO_JÁ_VOTOU = "Associado já votou";
     public static final String PAUTA_FINALIZADA = "Pauta finalizada";
     public static final String VOTO_REGISTRADO = "Voto registrado!";
+    public static final String CLIENT_CANT_VOTE = "O cpf do usuario não pode votar";
 }
